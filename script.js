@@ -936,13 +936,6 @@ function drawEnemies() {
     if (!screenInView(screen.x, screen.y, 40)) continue;
 
     ctx.beginPath();
-    ctx.fillStyle = "#f87171";
-    ctx.arc(screen.x, screen.y, enemy.radius, 0, Math.PI * 2);
-    ctx.fill();
-
-    const barWidth = 32;
-    const barHeight = 4;
-
     if (enemy.type === "fast") {
       ctx.fillStyle = "#22c55e"; // green
     } else if (enemy.type === "tank") {
@@ -950,6 +943,13 @@ function drawEnemies() {
     } else {
       ctx.fillStyle = "#ef4444"; // normal red
     }
+    ctx.arc(screen.x, screen.y, enemy.radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    const barWidth = 32;
+    const barHeight = 4;
+
+    ctx.fillStyle = "#ef4444";
     ctx.fillRect(
       screen.x - 16,
       screen.y - 20,
