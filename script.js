@@ -75,7 +75,12 @@ let player = {
   coins: 0,
   shootCooldown: 0,
   shootRate: 320,
-  invulnTimer: 0
+  invulnTimer: 0,
+  // regen health (carlos)
+  regenRate: 1 / 1000,
+  regenDelay: 2000,
+  regenTimer:  0,
+  regenAccum: 0
 };
 
 
@@ -113,17 +118,17 @@ const taskPool = [
   },
   {
     id: 5,
-    type: "Grab Coins",
+    type: "Collect Coins",
     goal: 15,
     reward: 150,
-    description: "Grab 15 physical coins"
+    description: "Collect coins 15 times"
   },
   {
     id: 6,
-    type: "Grab Coins",
+    type: "Collect Coins",
     goal: 30,
     reward: 300,
-    description: "Grab 30 physical coins"
+    description: "Collect coins 30 times"
   },
   {
     id: 7,
@@ -222,7 +227,19 @@ function showCoinPopup(x, y, amount) {
 
     setTimeout(() => popup.remove(), 600);
 }
+// show regen health (carlos)
+function showHealthRegenPopup(x, y, amount) {
+    const popup = document.createElement("div");
+    popup.classList.add("health-popup");
+    popup.innerText = `+${amount}`;
 
+    popup.style.left = x + "px";
+    popup.style.top = y + "px";
+
+    document.body.appendChild(popup);
+
+    setTimeout(() => popup.remove(), 600);
+}
 
 
 
@@ -369,7 +386,12 @@ function resetGame() {
     coins: 0,
     shootCooldown: 0,
     shootRate: 320,
-    invulnTimer: 0
+    invulnTimer: 0,
+    //regen health (carlos)
+    regenRate: 1 / 1000,
+    regenDelay: 2000,
+    regenTimer: 0,
+    regenAccum: 0
   };
 
   shopCosts = {
@@ -466,6 +488,22 @@ function updatePlayer(delta) {
 
   if (player.invulnTimer > 0) player.invulnTimer -= delta;
   if (player.shootCooldown > 0) player.shootCooldown -= delta;
+
+  //added health regen (carlos)
+  player.regenTimer += delta;
+
+  if (player.regenTimer >= player.regenDelay && player.health < player.maxHealth) {
+    const healAmount = (1 / 1000) * delta;
+    player.health += healAmount;
+    player.health = Math.min(player.health, player.maxHealth);
+
+    player.regenAccum += healAmount;
+    if (player.regenAccum >= 1) {
+      const healInt = Math.floor(player.regenAccum);
+      player.regenAccum -= healInt;
+      showHealthRegenPopup(1150, 100, healInt);
+    }
+  }
 }
 
 // auto shoot
@@ -592,6 +630,7 @@ function updateEnemies(delta) {
 
     if (touching && enemy.hitCooldown <= 0 && player.invulnTimer <= 0) {
       player.health -= enemy.attack;
+      player.regenTimer = 0;
       enemy.hitCooldown = 700;
       player.invulnTimer = 450;
 
@@ -688,7 +727,7 @@ function updateCoins() {
       //coin tracker for value and amount (carlos)
       playerStatsTracker.coins += coin.value;
       playerStatsTracker.coins_grabbed ++;
-      updateTasks("Grab Coins", 1);
+      updateTasks("Collect Coins", 1);
       showCoinPopup(1300, 100, coin.value);
       //
       coins.splice(i, 1);

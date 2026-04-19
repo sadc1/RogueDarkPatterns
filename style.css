@@ -46,6 +46,15 @@ body {
     animation: floatUp 0.6s ease-out forwards;
 }
 
+.health-popup {
+    position: absolute;
+    color: rgb(74, 170, 19);
+    font-weight: bold;
+    font-size: 60px;
+    pointer-events: none;
+
+    animation: floatUp 0.6s ease-out forwards;
+}
 @keyframes floatUp {
     0% {
         opacity: 1;
