@@ -418,6 +418,7 @@ function endRound() {
   betweenRounds = true;
   enemies = [];
   bullets = [];
+  coins = [];
 
   messageTitle.textContent = `Round ${round} Complete`;
   messageText.textContent = "Use coins to upgrade, then start the next round.";
