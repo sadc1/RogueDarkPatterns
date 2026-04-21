@@ -7,11 +7,34 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="game-shell">
+  <div id  = "mainMenu" class = "main-menu"> 
+    <h1 class = "menu-title"> Survivor Arena</h1>
+    <p class = "menu-subtitle"> Survive. Upgrade. Conquer</p>
+
+    <div id = "menuGreeting" class ="menu-greeting"></div>
+    <div id  = "menuButtons" class = "menu-buttons">
+      <button id = "startGameBtn" class = "menu-btn">Start Game</button>
+      <button id = "showLoginBtn" class = "menu-btn-second">Enter Name</button>
+    </div>
+
+    <div id="nameForm" class=" name-form">
+      <input type ="text" id = "nameInput" class="name-input" placeholder="Enter your name.." maxlength="20">
+      <div class = "form-row">
+        <button id ="saveNameBtn" class= "menu-btn">Save</button>
+        <button id = "cancelNameBtn" class = "menu-btn second">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <div id  = "gameWrapper" class="game-shell">
     <header class="top-bar">
       <div>
-        <h1>Top Down Shooter Survivor Arena</h1>
-        <p class="subtitle">Move around the map, defeat enemies, collect coins, and upgrade stats. You don't want to die, do you?</p>
+        <h1>Survivor Arena</h1>
+        <p class="subtitle">Move around the map, defeat enemies, collect coins, and upgrade.</p>
+        <p class = "player-name">Playing as:<span id="playerNameDisplay">Guest</span></p>
       </div>
 
       <div class="hud-grid">
@@ -67,15 +90,16 @@
         <div id="gameOverOverlay" class="message-overlay hidden">
           <div class="message-card">
             <h2>Game Over</h2>
-            <p id="finalSummary">You survived 0 rounds. Try doing more tasks, like the best players do.</p>
+            <p id="finalSummary">You survived 0 rounds.</p>
             <button id="restartBtn" class="primary-btn">Restart Game</button>
+            <button id = "backToMenuBtn" class = "primary-btn">Main Menu</button>
           </div>
         </div>
       </section>
 
       <aside class="right-panel panel">
         <h2>Market</h2>
-        <p class="shop-note">Use coins to improve your stats. Top players LOVE the HEALTH stat!</p>
+        <p class="shop-note">Use coins to improve your stats.</p>
 
         <div class="shop-list">
           <button class="shop-btn" data-upgrade="health">
@@ -118,7 +142,7 @@
   </div>
   
   <p>
-  <div class = "tasks-title"><h3>Tasks and Rewards (DON'T MISS THEM! Very few available.)</h3></div>
+  <div class = "tasks-title"><h3>Tasks</h3></div>
   </p>
   <div id = "tasks"></div>
 
