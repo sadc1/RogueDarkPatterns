@@ -406,6 +406,8 @@ function resetGame() {
   hideOverlays();
   updateCamera();
   updateHUD();
+  const subtitle = document.querySelector('.subtitle');
+  subtitle.innerHTML = 'Move around the map, defeat enemies, collect coins, and upgrade stats. You don\'t want to die, do you?';
 }
 
 function hideOverlays() {
@@ -797,6 +799,9 @@ function triggerGameOver() {
   gameOver = true;
   finalSummary.textContent = `You reached round ${round}, got ${playerStatsTracker.kills} kills, and collected ${playerStatsTracker.coins} coins.`;
   gameOverOverlay.classList.remove("hidden");
+  //Final debrief screen
+  const subtitle = document.querySelector('.subtitle');
+  subtitle.innerHTML = '<strong>The manipulative elements used are the gold despawning per round for pressuring the user to kill as many NPCs as possible, the top leaderboard system messages influencing users to act certain ways, the static task header stating there is a scarcity of them, etc. All urge a user to pursue a certain style of gameplay.</strong>';
 }
 
 // hud
