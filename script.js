@@ -868,7 +868,7 @@ document.querySelectorAll(".shop-btn").forEach((button) => {
 // game over
 function triggerGameOver() {
   gameOver = true;
-  finalSummary.textContent = `You reached round ${round}, got ${playerStatsTracker.kills} kills, and collected ${playerStatsTracker.coins} coins.`;
+  finalSummary.textContent = `You reached round ${round}, got ${playerStatsTracker.kills} kills, and collected ${playerStatsTracker.coins} coins.${round < 5 ? ' You died, try doing more tasks, like the best players do.' : ''}`;
   gameOverOverlay.classList.remove("hidden");
   //Final debrief screen
   const subtitle = document.querySelector('.subtitle');
