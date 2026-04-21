@@ -1,3 +1,66 @@
+// Main Menu
+const mainMenu = document.getElementById("mainMenu");
+const gameWrapper = document.getElementById("gameWrapper");
+const menuGreeting = document.getElementById("menuGreeting");
+const startGameBtn = document.getElementById("startGameBtn");
+const showLoginBtn = document.getElementById("showLoginBtn");
+const nameForm = document.getElementById("nameForm");
+const nameInput = document.getElementById("nameInput");
+const saveNameBtn = document.getElementById("saveNameBtn");
+const cancelNameBtn = document.getElementById("cancelNameBtn");
+const menuButtons = document.getElementById("menuButtons");
+
+let playerName = localStorage.getItem("survivorPlayerName") || "Guest";
+let gameStarted = false;
+
+function updateMenuGreeting(){
+  if(playerName && playerName !== "Guest"){
+    menuGreeting.innerHTML = `Welcome back, <strong>${playerName}</strong>!`;
+  }else{
+    menuGreeting.innerHTML = `Welcome back, <strong>Guest</strong>!`;
+  }
+  const display = document.getElementById("playerNameDisplay");
+  if(display) display.textContent = playerName;
+}
+
+showLoginBtn.addEventListener("click", () =>{
+  nameForm.classList.remove("hidden");
+  menuButtons.classList.add("hidden");
+  nameInput.value = playerName === "Guest" ? "" : playerName;
+  nameInput.focus();
+});
+
+cancelNameBtn.addEventListener("click", () =>{
+  nameForm.classList.add("hidden");
+  menuButtons.classList.remove("hidden");
+});
+
+saveNameBtn.addEventListener("click", () => {
+  const entered = nameInput.value.trim();
+  if(entered.length === 0 ){nameInput.focus(); return;}
+  playerName = entered;
+  localStorage.setItem("survivorPlayerName", playerName);
+  updateMenuGreeting();
+  nameForm.classList.add("hidden");
+  menuButtons.classList.remove("hidden");
+});
+nameInput.addEventListener("keydown", (e) =>{
+  if(e.key === "Enter") saveNameBtn.click();
+  if(e.key === "Escape") cancelNameBtn.click();
+});
+startGameBtn.addEventListener("click", () => {
+  mainMenu.classList.add("hidden");
+  gameWrapper.classList.remove("hidden");
+  if (!gameStarted) {
+    gameStarted = true;
+    resetGame();
+    requestAnimationFrame(gameLoop);
+  } else {
+    resetGame();
+  }
+});
+updateMenuGreeting();
+
 // canvas
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
@@ -27,6 +90,7 @@ const finalSummary = document.getElementById("finalSummary");
 const restartBtn = document.getElementById("restartBtn");
 //tasks section added (carlos)
 const tasks = document.getElementById("tasks");
+
 
 // world size
 const world = {
@@ -418,7 +482,6 @@ function endRound() {
   betweenRounds = true;
   enemies = [];
   bullets = [];
-  coins = [];
 
   messageTitle.textContent = `Round ${round} Complete`;
   messageText.textContent = "Use coins to upgrade, then start the next round.";
@@ -441,6 +504,13 @@ resumeBtn.addEventListener("click", () => {
 restartBtn.addEventListener("click", () => {
   resetGame();
 });
+const backToMenuBtn = document.getElementById("backToMenuBtn");
+backToMenuBtn.addEventListener("click", () => {
+  gameWrapper.classList.add("hidden");
+  mainMenu.classList.remove("hidden");
+  updateMenuGreeting();
+  resetGame();
+})
 
 // player movement
 function updatePlayer(delta) {
@@ -1115,5 +1185,5 @@ function gameLoop(timestamp) {
 }
 
 // start
-resetGame();
-requestAnimationFrame(gameLoop);
+//resetGame();
+//requestAnimationFrame(gameLoop);
